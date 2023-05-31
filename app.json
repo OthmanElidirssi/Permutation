@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "examen-react-native",
+    "slug": "examen-react-native",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
