@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, Text } from 'react-native';
+import { View, ActivityIndicator, Text, Button } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import ProfessorsChart from './components/ProfessorsChart';
 import ProfessorsBySpecialite from './components/ProfessorsBySpecialite';
 import MostDemandedCities from './components/MostDemandedCities';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Propos from './components/Propos';
 import Search from './components/Search';
+import Login from './components/Login';
+import Logout from './components/Logout';
 
 const Drawer = createDrawerNavigator();
 
 const App = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     fetchProfessorsData();
+    checkToken();
   }, []);
 
   const fetchProfessorsData = () => {
@@ -29,6 +34,16 @@ const App = () => {
         console.error('Error fetching data:', error);
         setLoading(false);
       });
+  };
+
+  const checkToken = async () => {
+    const token = await AsyncStorage.getItem('token');
+    setToken(token);
+  };
+
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('token');
+    setToken(null);
   };
 
   if (loading) {
@@ -59,15 +74,32 @@ const App = () => {
         <Drawer.Screen name="MostDemandedCities" options={{ title: 'Demanded Cities' }}>
           {() => <MostDemandedCities data={data} />}
         </Drawer.Screen>
-        <Drawer.Screen name="Search" options={{ title: 'Search' }}>
-          {() => <Search data={data} />}
-        </Drawer.Screen>
-        <Drawer.Screen name="Propos" component={Propos} options={{title:'A propos'}}/>
+        {token ? (
+          <Drawer.Screen name="Search" options={{ title: 'Search' }}>
+            {() => <Search data={data} />}
+          </Drawer.Screen>
+        ) : null}
+        <Drawer.Screen name="Propos" component={Propos} options={{ title: 'A propos' }} />
+        {!token ? (
+          <Drawer.Screen name="Login" options={{ title: 'Login' }}>
+            {({navigation}) => <Login setToken={setToken} navigation={navigation} />}
+          </Drawer.Screen>
+        ) : (
+          <Drawer.Screen
+            name="Logout"
+            options={{ title: 'Logout' }}
+            component={Logout}
+            initialParams={{ handleLogout }}
+          />
+        )}
       </Drawer.Navigator>
     </NavigationContainer>
   );
 };
 
+
+
 export default App;
+
 
 

@@ -1,6 +1,64 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button } from 'react-native';
+import React, { useState, useEffect, useMemo, useCallback} from 'react';
+import { StyleSheet, Text, View, ScrollView, Button ,FlatList} from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
+
+
+
+
+const FilteredData = ({ filteredData }) => {
+    return (
+
+        <FlatList
+            data={filteredData}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => {
+                return (
+                    <View style={styles.cardContainer}>
+                        <View key={ item._id} style={styles.card}>
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Nom:</Text>
+                                <Text>{ item.nom}</Text>
+                            </View>
+
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Prenom:</Text>
+                                <Text>{ item.prenom}</Text>
+                            </View>
+
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Email:</Text>
+                                <Text>{ item.email}</Text>
+                            </View>
+
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Téléphone:</Text>
+                                <Text>{ item.tel}</Text>
+                            </View>
+
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Spécialité:</Text>
+                                <Text>{ item.specialite}</Text>
+                            </View>
+
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Ville Actuelle:</Text>
+                                <Text>{ item.villeFaculteActuelle}</Text>
+                            </View>
+
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Ville Désirée:</Text>
+                                <Text>{ item.villeDesiree.split(';').join(',')}</Text>
+                            </View>
+                        </View>
+                    </View>
+                )
+            }}
+
+        />
+    )
+
+
+};
 
 const Search = ({ data }) => {
     const [specialite, setSpecialite] = useState('');
@@ -79,53 +137,10 @@ const Search = ({ data }) => {
 
             <View style={styles.buttonContainer}>
                 <Button title="Search" onPress={handleSearch} />
-                <Button title="Reset" onPress={()=>{setSpecialite('');setVilleActuelle('');setVilleDésirée('');handleSearch()}} />
+                <Button title="Reset" onPress={() => { setSpecialite(''); setVilleActuelle(''); setVilleDésirée(''); handleSearch() }} />
             </View>
 
-            <ScrollView>
-                {filteredData.length > 0 && (
-                    <View style={styles.cardContainer}>
-                        {filteredData.map(element => (
-                            <View key={element._id} style={styles.card}>
-                                <View style={styles.container}>
-                                    <Text style={styles.label}>Nom:</Text>
-                                    <Text>{element.nom}</Text>
-                                </View>
-
-                                <View style={styles.container}>
-                                    <Text style={styles.label}>Prenom:</Text>
-                                    <Text>{element.prenom}</Text>
-                                </View>
-
-                                <View style={styles.container}>
-                                    <Text style={styles.label}>Email:</Text>
-                                    <Text>{element.email}</Text>
-                                </View>
-
-                                <View style={styles.container}>
-                                    <Text style={styles.label}>Téléphone:</Text>
-                                    <Text>{element.tel}</Text>
-                                </View>
-
-                                <View style={styles.container}>
-                                    <Text style={styles.label}>Spécialité:</Text>
-                                    <Text>{element.specialite}</Text>
-                                </View>
-
-                                <View style={styles.container}>
-                                    <Text style={styles.label}>Ville Actuelle:</Text>
-                                    <Text>{element.villeFaculteActuelle}</Text>
-                                </View>
-
-                                <View style={styles.container}>
-                                    <Text style={styles.label}>Ville Désirée:</Text>
-                                    <Text>{element.villeDesiree.split(';').join(',')}</Text>
-                                </View>
-                            </View>
-                        ))}
-                    </View>
-                )}
-            </ScrollView>
+                {filteredData.length > 0 && <FilteredData filteredData={filteredData} />}
         </>
     );
 };
@@ -138,7 +153,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         justifyContent: 'space-around',
         width: '95%',
-        flexDirection:'row'
+        flexDirection: 'row'
     },
     cardContainer: {
         marginVertical: 25,
