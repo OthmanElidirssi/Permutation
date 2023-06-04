@@ -48,14 +48,12 @@ const Login = ({ navigation ,setToken}) => {
       />
       <TextInput
         placeholder="Email"
-        value={email}
         onChangeText={setEmail}
         style={styles.input}
       />
       <TextInput
         placeholder="Password"
         secureTextEntry
-        value={password}
         onChangeText={setPassword}
         style={styles.input}
       />

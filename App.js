@@ -10,6 +10,8 @@ import Propos from './components/Propos';
 import Search from './components/Search';
 import Login from './components/Login';
 import Logout from './components/Logout';
+import Profile from './components/Profil';
+import Inscription from './components/Inscription';
 
 const Drawer = createDrawerNavigator();
 
@@ -20,8 +22,7 @@ const App = () => {
 
   useEffect(() => {
     fetchProfessorsData();
-    checkToken();
-  }, []);
+  }, [token]);
 
   const fetchProfessorsData = () => {
     fetch('https://plain-teal-bull.cyclic.app/professeurs')
@@ -36,10 +37,6 @@ const App = () => {
       });
   };
 
-  const checkToken = async () => {
-    const token = await AsyncStorage.getItem('token');
-    setToken(token);
-  };
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem('token');
@@ -77,6 +74,16 @@ const App = () => {
         {token ? (
           <Drawer.Screen name="Search" options={{ title: 'Search' }}>
             {() => <Search data={data} />}
+          </Drawer.Screen>
+        ) : null}
+        {token ? (
+          <Drawer.Screen name="Profile" options={{ title: 'Profile' }}>
+            {() => <Profile token={token} data={data} setToken={setToken}/>}
+          </Drawer.Screen>
+        ) : null}
+        {!token ? (
+          <Drawer.Screen name="Inscription" options={{ title: 'Inscription' }}>
+            {({navigation}) => <Inscription  data={data} navigation={navigation} />}
           </Drawer.Screen>
         ) : null}
         <Drawer.Screen name="Propos" component={Propos} options={{ title: 'A propos' }} />

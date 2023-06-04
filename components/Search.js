@@ -39,6 +39,15 @@ const FilteredData = ({ filteredData }) => {
                                 <Text style={styles.label}>Spécialité:</Text>
                                 <Text>{ item.specialite}</Text>
                             </View>
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Grade:</Text>
+                                <Text>{ item.grade}</Text>
+                            </View>
+
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Etablissement:</Text>
+                                <Text>{ item.faculteActuelle}</Text>
+                            </View>
 
                             <View style={styles.container}>
                                 <Text style={styles.label}>Ville Actuelle:</Text>
@@ -72,7 +81,7 @@ const Search = ({ data }) => {
         data.forEach(element => {
             if (!set.has(element.specialite)) {
                 const obj = {
-                    key: element.specialite,
+                    key: element._id,
                     value: element.specialite
                 };
                 array.push(obj);
@@ -88,7 +97,7 @@ const Search = ({ data }) => {
         data.forEach(element => {
             if (!set.has(element.villeFaculteActuelle)) {
                 const obj = {
-                    key: element.villeFaculteActuelle,
+                    key: element._id,
                     value: element.villeFaculteActuelle
                 };
                 array.push(obj);
@@ -121,23 +130,27 @@ const Search = ({ data }) => {
                 setSelected={setSpecialite}
                 boxStyles={{ marginVertical: 25, width: '95%', alignSelf: 'center' }}
                 placeholder="Sélectionnez une Spécialité"
+                save='value'
             />
             <SelectList
                 data={villeActuelleArray}
                 setSelected={setVilleActuelle}
                 boxStyles={{ marginVertical: 25, width: '95%', alignSelf: 'center' }}
                 placeholder="Sélectionnez la ville actuelle"
+                save='value'
             />
             <SelectList
                 data={villeActuelleArray}
                 setSelected={setVilleDésirée}
                 boxStyles={{ marginVertical: 25, width: '95%', alignSelf: 'center' }}
                 placeholder="Sélectionnez la ville désirée"
+                save='value'
             />
 
             <View style={styles.buttonContainer}>
                 <Button title="Search" onPress={handleSearch} />
-                <Button title="Reset" onPress={() => { setSpecialite(''); setVilleActuelle(''); setVilleDésirée(''); handleSearch() }} />
+                {//<Button title="Reset" onPress={() => { setSpecialite(''); setVilleActuelle(''); setVilleDésirée(''); handleSearch() }} />
+                }
             </View>
 
                 {filteredData.length > 0 && <FilteredData filteredData={filteredData} />}
