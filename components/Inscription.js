@@ -62,8 +62,6 @@ const Inscription= ({ data, navigation }) => {
 
     function handleInscription() {
         const updatedUser = {
-            __v: 0,
-            _id: user._id,
             password: password,
             nom: nom,
             prenom: prenom,
@@ -77,7 +75,7 @@ const Inscription= ({ data, navigation }) => {
         };
 
         // Make the API request to update the user
-        fetch('https://plain-teal-bull.cyclic.app/professeurs', {
+        fetch('https://troubled-red-garb.cyclic.app/professeurs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -181,6 +179,7 @@ const Inscription= ({ data, navigation }) => {
                     label="Villes Désirées"
                     save="value"
                 />
+                
                 <Button title="Inscription" onPress={handleInscription} />
             </View>
         </ScrollView>

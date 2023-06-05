@@ -7,7 +7,7 @@ const Login = ({ navigation ,setToken}) => {
   const [password, setPassword] = useState('');
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://plain-teal-bull.cyclic.app/login', {
+      const response = await fetch('https://troubled-red-garb.cyclic.app/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

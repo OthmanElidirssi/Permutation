@@ -1,5 +1,5 @@
 
-import { View, Text, StyleSheet, TextInput, ScrollView ,Button,Alert,Image} from "react-native";
+import { View, Text, StyleSheet, TextInput, ScrollView, Button, Alert, Image } from "react-native";
 import { useState, useMemo } from "react";
 import jwtDecode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -8,7 +8,7 @@ import { MultipleSelectList } from "react-native-dropdown-select-list";
 
 
 
-const Label=({image,text})=>{
+const Label = ({ image, text }) => {
 
 
     return (
@@ -24,7 +24,7 @@ const Label=({image,text})=>{
     )
 }
 
-const Profile = ({ token, data, setToken}) => {
+const Profile = ({ token, data, setToken }) => {
 
     let user = jwtDecode(token).userId;
     const [nom, setNom] = useState(user.nom);
@@ -35,7 +35,7 @@ const Profile = ({ token, data, setToken}) => {
     const [etablissement, setEtablissement] = useState(user.faculteActuelle);
     const [spécialité, setSpécialité] = useState(user.specialite);
     const [villeActuelle, setVilleActuelle] = useState(user.villeFaculteActuelle);
-    const [villeDésirée,setVilleDésirée]=useState(user.villeDesiree.split(";"));
+    const [villeDésirée, setVilleDésirée] = useState(user.villeDesiree.split(";"));
 
 
 
@@ -59,121 +59,151 @@ const Profile = ({ token, data, setToken}) => {
 
     function handleUpdate() {
         const updatedUser = {
-          __v: 0,
-          _id: user._id,
-          password: user.password,
-          nom: nom,
-          prenom: prenom,
-          tel: tel,
-          email: email,
-          grade: grade,
-          faculteActuelle: etablissement,
-          specialite: spécialité,
-          villeFaculteActuelle: villeActuelle,
-          villeDesiree: villeDésirée.join(';'),
+            __v: 0,
+            _id: user._id,
+            password: user.password,
+            nom: nom,
+            prenom: prenom,
+            tel: tel,
+            email: email,
+            grade: grade,
+            faculteActuelle: etablissement,
+            specialite: spécialité,
+            villeFaculteActuelle: villeActuelle,
+            villeDesiree: villeDésirée.join(';'),
         };
-      
+
         // Make the API request to update the user
-        fetch('https://plain-teal-bull.cyclic.app/professeurs', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedUser),
+        fetch('https://troubled-red-garb.cyclic.app/professeurs', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedUser),
         })
-          .then((response) => response.json())
-          .then((data) => {
-            const { token } = data; 
-            AsyncStorage.setItem('token',token);
-            setToken(token);
-            Alert.alert(
-                'Update Successful',
-                'You have successfully Updated Your Profile.',
-                [
-                  { text: 'OK'}
-                ]
-              );
-            
-          })
-          .catch((error) => {
+            .then((response) => response.json())
+            .then((data) => {
+                const { token } = data;
+                AsyncStorage.setItem('token', token);
+                setToken(token);
+                Alert.alert(
+                    'Update Successful',
+                    'You have successfully Updated Your Profile.',
+                    [
+                        { text: 'OK' }
+                    ]
+                );
 
-            console.error(error);
-          });
-      }
-      
+            })
+            .catch((error) => {
 
-    
+                console.error(error);
+            });
+    }
+
+    function handleDelete() {
+        fetch(`https://troubled-red-garb.cyclic.app/professeurs/${email}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                    const message = data.message;
+                    setToken(null);
+
+                    Alert.alert(
+                        'Delete Successful',
+                        message,
+                        [
+                            { text: 'OK' }
+                        ]
+                    );
+                    
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+    }
+
+
+
 
     return (
         <ScrollView>
             <View style={styles.container}>
 
 
-                <Label image={require('../assets/user.png')} text={"Nom"}/>
+                <Label image={require('../assets/user.png')} text={"Nom"} />
                 <TextInput
                     value={nom}
                     style={styles.input}
-                    onChangeText={(val)=>setNom(val)}
+                    onChangeText={(val) => setNom(val)}
                 />
-                <Label image={require('../assets/user.png')} text={"Prenom"}/>
+                <Label image={require('../assets/user.png')} text={"Prenom"} />
                 <TextInput
                     value={prenom}
                     style={styles.input}
-                    onChangeText={(val)=>setPrenom(val)}
+                    onChangeText={(val) => setPrenom(val)}
                 />
-                <Label image={require('../assets/phone-call.png')} text={"Téléphone"}/>
+                <Label image={require('../assets/phone-call.png')} text={"Téléphone"} />
 
                 <TextInput
                     value={tel}
                     style={styles.input}
                     keyboardType="phone-pad"
-                    onChangeText={(val)=>setTel(val)}
+                    onChangeText={(val) => setTel(val)}
                 />
-                <Label image={require('../assets/email.png')} text={"Email"}/>
+                <Label image={require('../assets/email.png')} text={"Email"} />
                 <TextInput
                     value={email}
                     style={styles.input}
                     editable={false}
                 />
-                <Label image={require('../assets/graduate.png')} text={"Grade"}/>
+                <Label image={require('../assets/graduate.png')} text={"Grade"} />
                 <TextInput
                     value={grade}
                     style={styles.input}
-                    onChangeText={(val)=>setGrade(val)}
+                    onChangeText={(val) => setGrade(val)}
                 />
-                <Label image={require('../assets/university-building.png')} text={"Etablissement (abréviation: FST, FS, EST, ENSA ...)"}/>
+                <Label image={require('../assets/university-building.png')} text={"Etablissement (abréviation: FST, FS, EST, ENSA ...)"} />
 
                 <TextInput
                     value={etablissement}
                     style={styles.input}
-                    onChangeText={(val)=>setEtablissement(val)}
+                    onChangeText={(val) => setEtablissement(val)}
                 />
-                <Label image={require('../assets/book-of-black-cover-closed.png')} text={"Spécialité"}/>
+                <Label image={require('../assets/book-of-black-cover-closed.png')} text={"Spécialité"} />
 
                 <TextInput
                     value={spécialité}
                     style={styles.input}
-                    onChangeText={(val)=>setSpécialité(val)}
+                    onChangeText={(val) => setSpécialité(val)}
                 />
-                <Label image={require('../assets/maps-and-flags.png')} text={"Ville Actuelle"}/>
+                <Label image={require('../assets/maps-and-flags.png')} text={"Ville Actuelle"} />
 
                 <SelectList
                     data={villeActuelleArray}
                     setSelected={setVilleActuelle}
-                    defaultOption={{ key:villeActuelle, value: villeActuelle }}
-                    boxStyles={{ width: 350, height: 45, borderColor: 'black', borderWidth: 2}}
+                    defaultOption={{ key: villeActuelle, value: villeActuelle }}
+                    boxStyles={{ width: 350, height: 45, borderColor: 'black', borderWidth: 2 }}
                     save="value"
                 />
-                <Label image={require('../assets/maps-and-flags.png')} text={"Villes Désirées"}/>
+                <Label image={require('../assets/maps-and-flags.png')} text={"Villes Désirées"} />
                 <MultipleSelectList
                     data={villeActuelleArray}
-                    setSelected={(val)=>setVilleDésirée(val)
+                    setSelected={(val) => setVilleDésirée(val)
                     }
-                    boxStyles={{ width: 350,borderColor: 'black',borderWidth: 2}}
+                    boxStyles={{ width: 350, borderColor: 'black', borderWidth: 2 }}
                     label="Villes Désirées"
                     save="value"
                 />
-                <Button title="update" onPress={handleUpdate}/>
+                <View style={styles.buttons}>
+                    <Button title="Update" onPress={handleUpdate} />
+                    <Button title="Delete Profile" onPress={handleDelete} />
+                </View>
             </View>
         </ScrollView>
     )
@@ -198,21 +228,25 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 15
     },
-    labelContainer:{
-        flexDirection:'row',
-        alignSelf:'flex-start',
-        marginLeft:25,
-        marginTop:10,
-        marginBottom:5
+    labelContainer: {
+        flexDirection: 'row',
+        alignSelf: 'flex-start',
+        marginLeft: 25,
+        marginTop: 10,
+        marginBottom: 5
     },
-    image:{
-        width:20,
-        height:20,
-        marginRight:5,
-        alignSelf:'flex-end'
+    image: {
+        width: 20,
+        height: 20,
+        marginRight: 5,
+        alignSelf: 'flex-end'
     },
-    labelText:{
-        alignSelf:'flex-end',
-        marginTop:4
+    labelText: {
+        alignSelf: 'flex-end',
+        marginTop: 4
+    },
+    buttons: {
+        flexDirection: 'row',
+        justifyContent: "center"
     }
 })
