@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, Text, Button } from 'react-native';
+import { View, ActivityIndicator, Text, Button,Alert } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import ProfessorsChart from './components/ProfessorsChart';
@@ -41,6 +41,13 @@ const App = () => {
   const handleLogout = async () => {
     await AsyncStorage.removeItem('token');
     setToken(null);
+    Alert.alert(
+      'Logout Successful',
+      'You have been logged out successfully.',
+      [
+        { text: 'OK'}
+      ]
+    );
   };
 
   if (loading) {
