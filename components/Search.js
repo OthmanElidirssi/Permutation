@@ -149,8 +149,6 @@ const Search = ({ data }) => {
 
             <View style={styles.buttonContainer}>
                 <Button title="Search" onPress={handleSearch} />
-                {//<Button title="Reset" onPress={() => { setSpecialite(''); setVilleActuelle(''); setVilleDésirée(''); handleSearch() }} />
-                }
             </View>
 
                 {filteredData.length > 0 && <FilteredData filteredData={filteredData} />}

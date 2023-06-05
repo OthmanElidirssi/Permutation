@@ -1,6 +1,6 @@
 
 import { View, Text, StyleSheet, TextInput, ScrollView, Button, Alert, Image } from "react-native";
-import { useState, useMemo } from "react";
+import { useState, useMemo,useEffect } from "react";
 import jwtDecode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SelectList } from 'react-native-dropdown-select-list';
@@ -128,7 +128,15 @@ const Profile = ({ token, data, setToken }) => {
 
     }
 
-
+    useEffect(() => {
+        Alert.alert(
+            'Information',
+            "Pour Supprimer les villes Dérirées qui ne s'affichent pas il suffit juste de les selectionnées puis les désélectionnées",
+            [
+                { text: 'OK' }
+            ]
+        );
+    }, [])
 
 
     return (
@@ -191,7 +199,7 @@ const Profile = ({ token, data, setToken }) => {
                     boxStyles={{ width: 350, height: 45, borderColor: 'black', borderWidth: 2 }}
                     save="value"
                 />
-                <Label image={require('../assets/maps-and-flags.png')} text={"Villes Désirées"} />
+                <Label image={require('../assets/maps-and-flags.png')} text={"Villes Désirées("+villeDésirée.join(",")+")"} />
                 <MultipleSelectList
                     data={villeActuelleArray}
                     setSelected={(val) => setVilleDésirée(val)

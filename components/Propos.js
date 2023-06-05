@@ -4,22 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Propos = () => {
 
-  /*const retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        // Value exists, do something with it
-        console.log(value);
-      } else {
-        // Value does not exist
-        console.log('Value does not exist');
-      }
-    } catch (error) {
-      // Error retrieving data
-      console.log('Error retrieving data:', error);
-    }
-  };
-  retrieveData();*/
 
   return (
     <View style={styles.card}>
