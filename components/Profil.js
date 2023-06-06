@@ -74,7 +74,7 @@ const Profile = ({ token, data, setToken }) => {
         };
 
         // Make the API request to update the user
-        fetch('https://troubled-red-garb.cyclic.app/professeurs', {
+        fetch('https://tiny-worm-nightgown.cyclic.app/professeurs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ const Profile = ({ token, data, setToken }) => {
     }
 
     function handleDelete() {
-        fetch(`https://troubled-red-garb.cyclic.app/professeurs/${email}`, {
+        fetch(`https://tiny-worm-nightgown.cyclic.app/professeurs/${email}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

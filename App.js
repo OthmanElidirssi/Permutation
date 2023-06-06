@@ -25,7 +25,7 @@ const App = () => {
   }, [token]);
 
   const fetchProfessorsData = () => {
-    fetch('https://troubled-red-garb.cyclic.app/professeurs')
+    fetch('https://tiny-worm-nightgown.cyclic.app/professeurs')
       .then((response) => response.json())
       .then((responseData) => {
         setData(responseData);

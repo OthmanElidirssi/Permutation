@@ -75,7 +75,7 @@ const Inscription= ({ data, navigation }) => {
         };
 
         // Make the API request to update the user
-        fetch('https://troubled-red-garb.cyclic.app/professeurs', {
+        fetch('https://tiny-worm-nightgown.cyclic.app/professeurs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
